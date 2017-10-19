@@ -1,0 +1,31 @@
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #333;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: black;
+}
+
+.scroll-pane > .corner:hover {
+    -fx-background-color: black;
+}
+
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: transparent;
+}
+
+.button{
+	-fx-background-insets: 0 0 0 0, 0, 0, 0;
+}
+
+.separator .line{
+    -fx-border-color: #888;
+    -fx-border-width: 1px;
+}
