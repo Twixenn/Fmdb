@@ -44,11 +44,15 @@ public class ImdbTopList {
                 String genre = page.select("div.titlebar span.itemprop").html();
                 String episodeguideUrl = seriesUrl + "/episodes";
                 Document doc3 = Jsoup.connect(episodeguideUrl).get();*/
-                Document doc3 = Jsoup.connect("http://www.imdb.com/title/tt0944947/episodes").get();
+                Document doc3 = Jsoup.connect("http://www.imdb.com/title/tt5491994/episodes").get();
                 Elements page2 = doc3.select("div#main"); 
                 String[] seasons = page2.select("select#bySeason option").html().split("\\r?\\n");
                 for (int i = 0; i < seasons.length; i++) {
-                    System.out.println(seasons[i]); 
+                    //Gör urlen så den använder strings från tidigare
+                    Document episodeUrl = Jsoup.connect("http://www.imdb.com/title/tt5491994/episodes?season=" + seasons[i]).get(); 
+                    String[] titles = episodeUrl.select("div.info a").html().split("\\r?\\n");
+                    //String[] plots = episodeUrl.select("div.info div.item_description").html().split("\\r?\\n");
+                    System.out.println(titles[i]);
                 }
                 //saveImg(img_src, title);
             //}
