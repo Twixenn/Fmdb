@@ -44,13 +44,20 @@ public class ImdbTopList {
                 String genre = page.select("div.titlebar span.itemprop").html();
                 String episodeguideUrl = seriesUrl + "/episodes";
                 Document doc3 = Jsoup.connect(episodeguideUrl).get();*/
-                Document doc3 = Jsoup.connect("http://www.imdb.com/title/tt5491994/episodes").get();
+                Document doc3 = Jsoup.connect("http://www.imdb.com/title/tt0944947/episodes").get();
                 Elements page2 = doc3.select("div#main"); 
                 String[] seasons = page2.select("select#bySeason option").html().split("\\r?\\n");
                 for (int i = 0; i < seasons.length; i++) {
                     //Gör urlen så den använder strings från tidigare
-                    Document episodeUrl = Jsoup.connect("http://www.imdb.com/title/tt5491994/episodes?season=" + seasons[i]).get(); 
-                    String[] titles = episodeUrl.select("div.info a").html().split("\\r?\\n");
+                    Document episodesList = Jsoup.connect("http://www.imdb.com/title/tt0944947/episodes?season=" + seasons[i]).get(); 
+                    String[] titles = episodesList.select("div.info a").html().split("\\r?\\n");
+                    String[] episodesUrl = episodesList.select("div.info a").attr("href").split("\\r?\\n");
+                    for(int j = 0; j < episodesUrl.length; j++) {
+                        Document episode = Jsoup.connect("http://www.imdb.com" + episodesUrl[j]).get();
+                        String rating = episode.select("div.ratingValue strong span").html();
+                        String runtime = episode.select("div.txt-block time").html();
+                        System.out.println(rating);
+                    }
                     //String[] plots = episodeUrl.select("div.info div.item_description").html().split("\\r?\\n");
                     System.out.println(titles[i]);
                 }

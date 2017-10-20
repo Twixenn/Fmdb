@@ -10,7 +10,6 @@ package beans;
  * @author Fia
  */
 public class Season {
-    private int releaseYear;
     private int episodes;
     
     public int numberOfEpisodes() {

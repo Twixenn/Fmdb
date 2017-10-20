@@ -16,6 +16,5 @@ public class Episode {
     private String title;
     private double ratings;
     private String plot;
-    private List<String> directors = new ArrayList<>();
     private int runtime;
 }
