@@ -10,8 +10,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,56 +27,73 @@ import org.jsoup.select.Elements;
  */
 public class ImdbTopList {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
-            /*Document document = Jsoup.connect("http://www.imdb.com/chart/toptv/").get(); 
+            Document document = Jsoup.connect("http://www.imdb.com/chart/toptv/").get(); 
             Elements trow = document.select("tbody.lister-list tr");
             
-            for(int i = 3; i < 4; i++) {
-                String title = trow.get(i).select("td.titleColumn a").html();
-                String releaseYear = trow.get(i).select("td.titleColumn span.secondaryInfo").html();
-                releaseYear= releaseYear.replace("(", "").replace(")","");
-                String img_src = trow.get(i).select("td.posterColumn img").attr("src");
-                String rating = trow.get(i).select("td.ratingColumn strong").html();
+            for(int i = 2; i < 4; i++) {
                 String seriesUrl = trow.get(i).select("td.titleColumn a").attr("href");
                 String[] seriesUrls = seriesUrl.split("/");
                 seriesUrl = "http://www.imdb.com/title/" + seriesUrls[2];
                 Document doc2 = Jsoup.connect(seriesUrl).get();
                 Elements page = doc2.select("div#content-2-wide");
-                String plot = page.select("div.summary_text").html();
+                String title = page.select("div.title_wrapper h1").html();
+                title = title.replaceAll("&nbsp;","");
+                String releaseYear = page.select("div.subtext a").html();
+                
+                //Använder regex för att endast få ut årtalet
+                releaseYear = releaseYear.replaceAll("(?![TV]).*", "");
+                releaseYear = releaseYear.replaceAll("\\n", "");
+                System.out.println(releaseYear);
+                isTvSeries(releaseYear);
+                releaseYear = releaseYear.replaceAll("(?![0-9]).", "");
+                String img_src = page.select("div.poster img").attr("src");
+                
+                String rating = page.select("div.ratingValue strong span").html();
+                /*String plot = page.select("div.summary_text").html();
                 String genre = page.select("div.titlebar span.itemprop").html();
                 String episodeguideUrl = seriesUrl + "/episodes";
-                Document doc3 = Jsoup.connect(episodeguideUrl).get();*/
-                Document doc3 = Jsoup.connect("http://www.imdb.com/title/tt0944947/episodes").get();
+                Document doc3 = Jsoup.connect(episodeguideUrl).get();
                 Elements page2 = doc3.select("div#main"); 
-                String[] seasons = page2.select("select#bySeason option").html().split("\\r?\\n");
-                for (int i = 0; i < seasons.length; i++) {
+                String[] seasons = page2.select("select#bySeason option").html().split("\\n");
+                for (int j = 0; j < seasons.length; j++) {
                     //Gör urlen så den använder strings från tidigare
-                    Document episodesList = Jsoup.connect("http://www.imdb.com/title/tt0944947/episodes?season=" + seasons[i]).get(); 
-                    String[] titles = episodesList.select("div.info a").html().split("\\r?\\n");
-                    String[] episodesUrl = episodesList.select("div.info a").attr("href").split("\\r?\\n");
-                    for(int j = 0; j < episodesUrl.length; j++) {
-                        Document episode = Jsoup.connect("http://www.imdb.com" + episodesUrl[j]).get();
-                        String rating = episode.select("div.ratingValue strong span").html();
-                        String runtime = episode.select("div.txt-block time").html();
-                        System.out.println(rating);
+                    Document episodesList = Jsoup.connect(episodeguideUrl + "?season=" + seasons[j]).get(); 
+                    Elements episodes = episodesList.select("div.info a");
+                    ArrayList<String> titles = new ArrayList<>();
+                    ArrayList<String> episodesUrl = new ArrayList<>();
+                    for (Element episode : episodes) {
+                        titles.add(episode.text());
+                        episodesUrl.add(episode.attr("href"));
                     }
-                    //String[] plots = episodeUrl.select("div.info div.item_description").html().split("\\r?\\n");
-                    System.out.println(titles[i]);
-                }
+                    String[] plots = episodesList.select("div.info div.item_description").html().split("\\n");
+                    for (int k = 0; k < episodesUrl.size(); k++) {
+                        Document episode = Jsoup.connect("http://www.imdb.com" + episodesUrl.get(k)).get();
+                        String episodeRating = episode.select("div.ratingValue strong span").html();
+                        String runtime = episode.select("div.txt-block time").html();
+                    }
+                    
+                }*/
                 //saveImg(img_src, title);
-            //}
+            }
             
         } catch (Exception ex) {
             System.out.println(ex);
         } 
     }
     
-    public static void saveImg(String imgurl, String name) throws MalformedURLException, IOException {
-        URL url = new URL(imgurl);
-        BufferedImage img = ImageIO.read(url);
-        File file = new File("C:\\Volumes\\Godzilla Hårddisken\\images\\" + name + ".jpg");
-        ImageIO.write(img, "jpg", file);
+    public void addSeason(String url) {
         
+    }
+    
+    //Kollar om användaren matar in en TV-serie
+    public static boolean isTvSeries(String s) {
+        if(!"".equals(s.replaceAll("(?![TV]).", ""))) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

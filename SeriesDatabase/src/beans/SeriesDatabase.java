@@ -30,12 +30,15 @@ public class SeriesDatabase {
             
             Statement stmt = connection.createStatement();
             
-            String sql = "SELECT * FROM serie";
-            ResultSet data = stmt.executeQuery(sql);
+            String sql = "INSERT INTO `Serie` "
+                    + "(`title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`) "
+                    + "VALUES ('Band of Brothers', '2001', '9.5', 'The story of Easy Company of the U.S. Army 101st Airborne Division, and their mission in World War II Europe, from Operation Overlord, through V-J Day.', 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTI3ODc2ODc0M15BMl5BanBnXkFtZTYwMjgzNjc3._V1_UX182_CR0,0,182,268_AL_.jpg', 'Action Drama History War')";
+            //ResultSet data = stmt.executeQuery(sql);
+            stmt.executeUpdate(sql);
             
-            while(data.next()){
+            /*while(data.next()){
                 series.add(new Serie(data));
-            }
+            }*/
             
             connection.close();
             
