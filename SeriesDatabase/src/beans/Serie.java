@@ -49,13 +49,14 @@ public class Serie {
         }
     }
     
-    public Serie(String url) throws IOException {
-        this.seriesId = id;
-        id++; 
-        addSerie(url);
+    public Serie(String url, double maxId, double seasonId) throws IOException {
+        id = maxId;
+        id++;
+        this.seriesId = id; 
+        addSerie(url, seasonId);
     }
     
-    public void addSerie(String url) throws IOException {
+    public void addSerie(String url, double seasonId) throws IOException {
         String[] urls = url.split("(?:http:\\/\\/www.imdb.com\\/title\\/|www.imdb.com\\/title\\/)");
         urls = urls[1].split("/");
         url = "http://www.imdb.com/title/" + urls[0];
@@ -76,17 +77,18 @@ public class Serie {
         this.plot = page.select("div.summary_text").html().replaceAll("'", "");
         setGenres(page.select("div.titlebar span.itemprop").html());
         
-        addSeasons(url);
+        addSeasons(url, seasonId);
     }
     
-    public void addSeasons(String url) throws IOException {
+    public void addSeasons(String url, double seasonId) throws IOException {
         String episodeguideUrl = url + "/episodes";
         Document doc3 = Jsoup.connect(episodeguideUrl).get();
         Elements page2 = doc3.select("div#main");
         String[] seasonsOp = page2.select("select#bySeason option").html().split("\\n");
 
         for (String s:seasonsOp) {
-            this.seasons.add(new Season(episodeguideUrl, s, seriesId));
+            this.seasons.add(new Season(episodeguideUrl, s, seriesId, seasonId));
+            seasonId++;
         }
     }
     

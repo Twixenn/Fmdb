@@ -30,10 +30,24 @@ public class SeriesDatabase {
             Connection connection = ConnectionFactory.getConnection();
 
             Statement stmt = connection.createStatement();
-            Serie serie = new Serie("http://www.imdb.com/title/tt4047038/");
+            String sql = "SELECT MAX(id) FROM Serie";
+            ResultSet res = stmt.executeQuery(sql);
+            double seriesMaxId = -1;
+            if (res.next()) {
+                seriesMaxId = res.getDouble(1);
+            }
+          
+            sql = "SELECT MAX(id) FROM Season";
+            res = stmt.executeQuery(sql);
+            double seasonMaxId = -1;
+            if (res.next()) {
+                seasonMaxId = res.getDouble(1);
+            }
+            String url = "http://www.imdb.com/title/tt4574334/?ref_=nv_sr_1";
+            Serie serie = new Serie(url, seriesMaxId, seasonMaxId);
             
             //ADD SERIES
-            String sql = "INSERT INTO `Serie`(`id`, `title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`)"
+            sql = "INSERT INTO `Serie`(`id`, `title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`)"
                     + " VALUES "+ serie.toString();
             stmt.executeUpdate(sql);
             

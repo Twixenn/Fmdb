@@ -23,10 +23,11 @@ public class Season {
     private double seriesId;
     private double seasonId;
 
-    public Season(String url, String s, double series) throws IOException {
-        this.seriesId = series;
-        this.seasonId = id;
+    public Season(String url, String s, double series, double maxId) throws IOException {
+        id = maxId;
         id++;
+        this.seasonId = id;
+        this.seriesId = series;
         addEpisodes(url, s);
     }
     
