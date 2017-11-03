@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Fia
  */
-public class SeriesDatabase {
+public class AddSeriesToDatabase {
 
     /**
      * @param args the command line arguments
@@ -43,7 +43,7 @@ public class SeriesDatabase {
             if (res.next()) {
                 seasonMaxId = res.getDouble(1);
             }
-            String url = "http://www.imdb.com/title/tt4574334/?ref_=nv_sr_1";
+            String url = "http://www.imdb.com/title/tt2575988/?ref_=nv_sr_1";
             Serie serie = new Serie(url, seriesMaxId, seasonMaxId);
             
             //ADD SERIES
