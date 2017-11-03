@@ -1,2 +1,9 @@
 /Fmdb/build/
 /Fmdb/dist/
+/Fmdb/nbproject/
+/Fmdb/test/
+/IMDbToplist/nbproject/
+/IMDbToplist/test/
+/MovieDatabase/nbproject/
+/SeriesDatabase/nbproject/
+/SeriesDatabase/test/

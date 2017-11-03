@@ -34,7 +34,8 @@ public class AddSeriesToDatabase {
 
         try {
             Connection connection = ConnectionFactory.getConnection();
-
+            
+            //Sätter så att inte id blir samma som någon tidigare
             Statement stmt = connection.createStatement();
             String sql = "SELECT MAX(id) FROM Serie";
             ResultSet res = stmt.executeQuery(sql);
@@ -42,7 +43,8 @@ public class AddSeriesToDatabase {
             if (res.next()) {
                 seriesMaxId = res.getDouble(1);
             }
-          
+            
+            //Sätter så att inte id blir samma som någon tidigare
             sql = "SELECT MAX(id) FROM Season";
             res = stmt.executeQuery(sql);
             double seasonMaxId = -1;
@@ -53,7 +55,7 @@ public class AddSeriesToDatabase {
             Serie serie = new Serie(url, seriesMaxId, seasonMaxId);
             
             //ADD SERIES
-            /*sql = "INSERT INTO `Serie`(`id`, `title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`)"
+            sql = "INSERT INTO `Serie`(`id`, `title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`)"
                     + " VALUES "+ serie.toString();
             stmt.executeUpdate(sql);
             
