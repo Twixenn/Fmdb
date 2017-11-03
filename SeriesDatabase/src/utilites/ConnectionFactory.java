@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class ConnectionFactory {
         public static Connection getConnection() throws SQLException, ClassNotFoundException {
-        String url = "jdbc:mysql://localhost:8889/series";
+        String url = "jdbc:mysql://localhost:8080/series";
         String user = "root";
         String password = "root";
         Class.forName("com.mysql.jdbc.Driver");

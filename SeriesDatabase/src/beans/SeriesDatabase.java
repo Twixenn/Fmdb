@@ -7,6 +7,7 @@ package beans;
 
 import utilites.ConnectionFactory;
 import com.mysql.jdbc.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -24,25 +25,45 @@ public class SeriesDatabase {
     public static void main(String[] args) {
         List<Serie> series = new ArrayList<>();
         // TODO code application logic here
-        System.out.println("test");
+
         try {
             Connection connection = ConnectionFactory.getConnection();
-            
+
             Statement stmt = connection.createStatement();
+            Serie serie = new Serie("http://www.imdb.com/title/tt4047038/");
             
-            String sql = "INSERT INTO `Serie` "
-                    + "(`title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`) "
-                    + "VALUES ('Band of Brothers', '2001', '9.5', 'The story of Easy Company of the U.S. Army 101st Airborne Division, and their mission in World War II Europe, from Operation Overlord, through V-J Day.', 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTI3ODc2ODc0M15BMl5BanBnXkFtZTYwMjgzNjc3._V1_UX182_CR0,0,182,268_AL_.jpg', 'Action Drama History War')";
-            //ResultSet data = stmt.executeQuery(sql);
+            //ADD SERIES
+            String sql = "INSERT INTO `Serie`(`id`, `title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`)"
+                    + " VALUES "+ serie.toString();
             stmt.executeUpdate(sql);
             
+            //ADD SEASONS
+            sql = "INSERT INTO `Season` (`id`, `series`)"
+                    + " VALUES ";
+            for(Season s:serie.getSeasons()) {
+                sql += s.toString() +",";
+            }
+            
+            sql = sql.substring(0,sql.length() - 1);
+            stmt.executeUpdate(sql);
+            
+            //ADD EPISODES
+            sql = "INSERT INTO `Episode`(`season`, `title`, `plot`, `rating`, `runtime`)"
+                    + " VALUES ";
+            for(Season s:serie.getSeasons()) {
+                for(Episode e:s.getEpisodes()) {
+                    sql += e.toString() + ",";
+                }
+            }
+            
+            sql = sql.substring(0,sql.length() - 1);
+            stmt.executeUpdate(sql);
+
             /*while(data.next()){
                 series.add(new Serie(data));
             }*/
-            
             connection.close();
-            
-            for(Serie s:series) {
+            for (Serie s : series) {
                 System.out.println(s.toString());
             }
         } catch (Exception e) {
@@ -50,5 +71,5 @@ public class SeriesDatabase {
             System.out.println(e.getMessage());
         }
     }
-    
+
 }

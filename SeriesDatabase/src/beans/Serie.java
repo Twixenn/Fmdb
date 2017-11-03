@@ -5,32 +5,38 @@
  */
 package beans;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 /**
  *
  * @author Fia
  */
 public class Serie {
+    private static double id = 0;
+    private double seriesId;
     private String title;
-    private int releaseYear;
-    private int seasons;
-    private double ratings;
+    private String releaseYear;
+    private List<Season> seasons = new ArrayList<>();
+    private double rating;
     private String plot;
     private String coverImage;
-    private List<String> creators = new ArrayList<>();
     private List<String> genres = new ArrayList<>();
+    
     
     public Serie(ResultSet data) {
         try {
             this.title = data.getString("title");
-            this.releaseYear = (data.getInt("releaseYear"));
-            this.ratings = (data.getDouble("ratings"));
+            this.releaseYear = (data.getString("releaseYear"));
+            this.rating = (data.getDouble("ratings"));
             this.plot = (data.getString("plot"));
             this.coverImage = (data.getString("coverImage"));
             String string = (data.getString("genre"));
@@ -42,69 +48,84 @@ public class Serie {
             Logger.getLogger(Serie.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public void setTitle(String title) {
-        this.title = title;
+    
+    public Serie(String url) throws IOException {
+        this.seriesId = id;
+        id++; 
+        addSerie(url);
     }
+    
+    public void addSerie(String url) throws IOException {
+        String[] urls = url.split("(?:http:\\/\\/www.imdb.com\\/title\\/|www.imdb.com\\/title\\/)");
+        urls = urls[1].split("/");
+        url = "http://www.imdb.com/title/" + urls[0];
+            
+        Document doc2 = Jsoup.connect(url).get();
+        Elements page = doc2.select("div#content-2-wide");
+        this.title = page.select("div.title_wrapper h1").html();
+        this.title = this.title.replaceAll("&nbsp;", "").replaceAll("'", "");
+        String releaseYear = page.select("div.subtext a").html();
 
-    public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
+        //Använder regex för att endast få ut årtalet
+        String isSeries = releaseYear.replaceAll("(?![TV]).*", "").replaceAll("\\n", "");
+        isTvSeries(isSeries);
+        this.releaseYear = releaseYear.replaceAll("(?![0-9]).", "").replaceAll("\\n", "").substring(0, 4);
+        this.coverImage = page.select("div.poster img").attr("src");
+
+        this.rating = Double.parseDouble(page.select("div.ratingValue strong span").html());
+        this.plot = page.select("div.summary_text").html().replaceAll("'", "");
+        setGenres(page.select("div.titlebar span.itemprop").html());
+        
+        addSeasons(url);
+    }
+    
+    public void addSeasons(String url) throws IOException {
+        String episodeguideUrl = url + "/episodes";
+        Document doc3 = Jsoup.connect(episodeguideUrl).get();
+        Elements page2 = doc3.select("div#main");
+        String[] seasonsOp = page2.select("select#bySeason option").html().split("\\n");
+
+        for (String s:seasonsOp) {
+            this.seasons.add(new Season(episodeguideUrl, s, seriesId));
+        }
+    }
+    
+    public static boolean isTvSeries(String s) {
+        if (!"".equals(s.replaceAll("(?![TV]).", ""))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setRatings(double ratings) {
-        this.ratings = ratings;
-    }
-
-    public void setPlot(String plot) {
-        this.plot = plot;
-    }
-
-    public void setCoverImage(String coverImage) {
-        this.coverImage = coverImage;
+        this.rating = ratings;
     }
     
     public void setGenres(String genres) {
-        String[] parts = genres.split(",");
+        String[] parts = genres.split("\\n");
         for(int i = 0; i < parts.length; i++) {
             this.genres.add(parts[i]);
         }
     }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getReleaseYear() {
-        return releaseYear;
-    }
-
-    public double getRatings() {
-        return ratings;
-    }
-
-    public String getPlot() {
-        return plot;
-    }
-
-    public String getCoverImage() {
-        return coverImage;
+    
+    public List<Season> getSeasons() {
+        return this.seasons;
     }
     
-    public List<String> getGenres() {
-        return genres;
-    }
-    
-    public int numberOfSeasons() {
-        return seasons;
+    public String getGenres() {
+        String genresString = "";
+        for(String g:genres) {
+            genresString += g + " ";
+        }
+        return genresString;
     }
     
     @Override
     public String toString() {
-        String output ="Title: " + getTitle() + 
-                " Release year: " + getReleaseYear() + 
-                " Ratings: " + getRatings() + 
-                " Plot: " + getPlot() +
-                " Genres: " + getGenres();
+        String output = "(" + this.seriesId + ", '" + this.title + "', '" + this.releaseYear + "', '"
+                    + this.rating + "', '" + this.plot + "', '"
+                    + this.coverImage + "', '" + getGenres() + "')";
         return output;
     }
 }
