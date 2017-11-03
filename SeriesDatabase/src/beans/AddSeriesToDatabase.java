@@ -7,11 +7,17 @@ package beans;
 
 import utilites.ConnectionFactory;
 import com.mysql.jdbc.Connection;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -43,11 +49,11 @@ public class AddSeriesToDatabase {
             if (res.next()) {
                 seasonMaxId = res.getDouble(1);
             }
-            String url = "http://www.imdb.com/title/tt2575988/?ref_=nv_sr_1";
+            String url = "http://www.imdb.com/title/tt5491994/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=2398042182&pf_rd_r=01ATK98NRN4Y7C22X6H2&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=toptv&ref_=chttvtp_tt_1";
             Serie serie = new Serie(url, seriesMaxId, seasonMaxId);
             
             //ADD SERIES
-            sql = "INSERT INTO `Serie`(`id`, `title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`)"
+            /*sql = "INSERT INTO `Serie`(`id`, `title`, `releaseYear`, `ratings`, `plot`, `coverImage`, `genre`)"
                     + " VALUES "+ serie.toString();
             stmt.executeUpdate(sql);
             
@@ -76,14 +82,21 @@ public class AddSeriesToDatabase {
             /*while(data.next()){
                 series.add(new Serie(data));
             }*/
+            
             connection.close();
-            for (Serie s : series) {
-                System.out.println(s.toString());
-            }
+            saveImage(serie.getImage(), serie.getTitle());
+            
         } catch (Exception e) {
             System.out.println("ERROR");
             System.out.println(e.getMessage());
         }
+    }
+    
+    public static void saveImage(String imgUrl, String movieTitle) throws MalformedURLException, IOException {
+        URL url = new URL(imgUrl);
+        BufferedImage img = ImageIO.read(url);
+        File file = new File("/Volumes/Godzilla Hårddisksson/TE4/Projekt/Fmdb/Bilder/" + movieTitle + ".jpg");
+        ImageIO.write(img, "jpg", file);
     }
 
 }

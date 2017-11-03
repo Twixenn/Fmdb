@@ -99,10 +99,6 @@ public class Serie {
             return false;
         }
     }
-
-    public void setRatings(double ratings) {
-        this.rating = ratings;
-    }
     
     public void setGenres(String genres) {
         String[] parts = genres.split("\\n");
@@ -111,8 +107,16 @@ public class Serie {
         }
     }
     
+    public String getTitle() {
+        return this.title;
+    }
+    
     public List<Season> getSeasons() {
         return this.seasons;
+    }
+    
+    public String getImage() {
+        return this.coverImage;
     }
     
     public String getGenres() {

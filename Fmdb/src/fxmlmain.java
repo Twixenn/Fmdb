@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -20,24 +21,24 @@ public class fxmlmain extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        // Create the FXMLLoader
+        FXMLLoader loader = new FXMLLoader();
+        // Path to the FXML File
+        String fxmlDocPath = "Path-To-Your-FXML-Files/FxFXMLExample1.fxml";
+        FileInputStream fxmlStream = new FileInputStream(fxmlDocPath);
+        // Create the Pane and all Details
+        VBox root = (VBox) loader.load(fxmlStream);
+ 
+        // Create the Scene
+        Scene scene = new Scene(root);
+        // Set the Scene to the Stage
+        stage.setScene(scene);
+        // Set the Title to the Stage
+        stage.setTitle("A simple FXML Example");
+        // Display the Stage
+        stage.show();
+
     }
 
     /**
