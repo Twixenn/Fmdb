@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moviedatabase.FXMLDocumentController">
    <center>
       <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
          <content>
@@ -28,7 +28,7 @@
                                  <children>
                                     <BorderPane layoutX="457.0" layoutY="10.0" prefHeight="180.0" prefWidth="200.0">
                                        <center>
-                                          <ImageView fitHeight="180.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                      <ImageView fitHeight="180.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" onMouseClicked='#imageClick'>
                                              <image>
                                                 <Image url="@dirk.jpg" />
                                              </image>
@@ -115,7 +115,7 @@
                      </top>
                   </BorderPane>
                   
-                  <fx:include source="fmdb-firstpage-genre.fxml"/>
+                  
                   
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>

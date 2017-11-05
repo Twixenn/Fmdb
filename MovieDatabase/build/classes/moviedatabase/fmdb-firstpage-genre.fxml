@@ -21,7 +21,7 @@
                                  <children>
                                     <BorderPane layoutX="457.0" layoutY="10.0" prefHeight="180.0" prefWidth="200.0">
                                        <center>
-                                          <ImageView fitHeight="180.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                          <ImageView fitHeight="180.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" onMouseClicked='#imageClick'>
                                              <image>
                                                 <Image url="@dirk.jpg" />
                                              </image>
