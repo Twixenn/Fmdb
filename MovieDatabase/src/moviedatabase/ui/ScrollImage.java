@@ -5,9 +5,14 @@
  */
 package moviedatabase.ui;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import static moviedatabase.ui.MovieDatabase.main;
 
 /**
  *
@@ -16,6 +21,7 @@ import javafx.scene.layout.BorderPane;
 public class ScrollImage {
     BorderPane borderPane;
     ImageView imageView;
+    Stage stage;
     
     public BorderPane displayImage() {
         borderPane = new BorderPane();
@@ -39,8 +45,11 @@ public class ScrollImage {
     }
     
     public void imageClick(javafx.scene.input.MouseEvent mouseEvent) {
-        System.out.println("Hejsantjosan");
-        //loadNewScene();
+        loadSerieScene();
+    }
+    
+    public void loadSerieScene() {
+        new MovieDatabase().loadNewScene(new SerieView().displaySerie());
     }
     
 }

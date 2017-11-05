@@ -35,6 +35,7 @@ public class MovieDatabase extends Application {
     BorderPane border;
     ScrollPane scrollPane;
     VBox vBox;
+    static Stage stage;
     
     //HEADER
     BorderPane borderPane;
@@ -47,53 +48,10 @@ public class MovieDatabase extends Application {
 
 
     @Override
-    public void start(Stage stage) throws Exception {
-        border = new BorderPane();
-        scrollPane = new ScrollPane();
-        vBox = new VBox();
-        borderPane = new BorderPane();
-        hBox = new HBox();
-        
-        stage.setTitle("FMdB");
-        
-        Scene scene = new Scene(border, 600, 400);
-        
-        border.setMaxHeight(USE_PREF_SIZE);
-        border.setMaxWidth(USE_PREF_SIZE);
-        border.setMinHeight(USE_PREF_SIZE);
-        border.setMinWidth(USE_PREF_SIZE);
-        border.setPrefHeight(400.0);
-        border.setPrefWidth(600.0);
-        border.setStyle("-fx-background-color: black;");
-
-        border.setCenter(scrollPane);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setPrefHeight(200.0);
-        scrollPane.setPrefWidth(200.0);
-        scrollPane.setStyle("-fx-background-color: black;");
-
-        vBox.setSpacing(20.0);
-        vBox.setStyle("-fx-background-color: black;");
-
-        
-        vBox.setPadding(new Insets(0.0, 10.0, 0.0, 20.0));
-        scrollPane.setContent(vBox);
-        BorderPane.setAlignment(scrollPane, Pos.CENTER);
-        
-        //HEADER
-        Header header = new Header();
-        border.setTop(header.displayHeader());
-        
-        scene.getStylesheets().add("/moviedatabase/main.css");
-        scene.getStylesheets().add("/moviedatabase/main.css");
-        
-        ScrollView scrollView = new ScrollView();
-
-        vBox.getChildren().add(scrollView.displayScrollView("Horror"));
-        vBox.getChildren().add(scrollView.displayScrollView("Drama"));
-        vBox.getChildren().add(scrollView.displayScrollView("Comedy"));
-        
+    public void start(Stage stag) throws Exception {
+        stage = stag;
+        stage.setTitle("FMdB"); 
+        Scene scene = new Scene(new HomePage().displayHomePage(), 600, 400);
         stage.setScene(scene);
         stage.show();
     }
@@ -105,11 +63,10 @@ public class MovieDatabase extends Application {
         launch(args);
     }
     
-    public void loadNewScene(Stage stage, BorderPane border) {
+    public void loadNewScene(BorderPane border) {
         stage.setTitle("FMdB");
-        stage.setScene(new Scene(border, 600, 400));
+        stage.setScene(new Scene(border, 600, 400));  
         stage.show();
-
     }
     
 }

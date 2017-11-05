@@ -52,6 +52,7 @@ public class Header {
         BorderPane.setAlignment(imageView, javafx.geometry.Pos.CENTER);
         imageView.setFitHeight(56.0);
         imageView.setFitWidth(162.0);
+        imageView.setOnMouseClicked(this::imageClick);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
         imageView.setImage(new Image(getClass().getResource("fmdb.png").toExternalForm()));
@@ -70,5 +71,13 @@ public class Header {
         hBox.getChildren().add(button);
         
         return borderPane;
+    }
+    
+    public void imageClick(javafx.scene.input.MouseEvent mouseEvent) {
+        loadHomeScene();
+    }
+    
+    public void loadHomeScene() {
+        new MovieDatabase().loadNewScene(new HomePage().displayHomePage());
     }
 }
