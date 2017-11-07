@@ -32,20 +32,7 @@ import javafx.stage.Stage;
  * @author Fia
  */
 public class MovieDatabase extends Application {
-    BorderPane border;
-    ScrollPane scrollPane;
-    VBox vBox;
     static Stage stage;
-    
-    //HEADER
-    BorderPane borderPane;
-    HBox hBox;
-    ImageView imageView;
-    BorderPane borderPane2;
-    Button button;
-    TextField textField;
-    ImageView imageView2;
-
 
     @Override
     public void start(Stage stag) throws Exception {

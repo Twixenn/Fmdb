@@ -99,7 +99,7 @@ public class ImdbSerieBase {
         border.setPrefHeight(400.0);
         border.setPrefWidth(600.0);
         border.setStyle("-fx-background-color: black;");
-        border.getStylesheets().add("/moviedatabase/main.css");
+        border.getStylesheets().add("main.css");
 
         BorderPane.setAlignment(borderPane, javafx.geometry.Pos.CENTER);
         borderPane.setPrefHeight(50.0);

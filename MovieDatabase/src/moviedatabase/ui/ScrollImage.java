@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import static moviedatabase.ui.MovieDatabase.main;
@@ -44,12 +45,7 @@ public class ScrollImage {
         return borderPane;
     }
     
-    public void imageClick(javafx.scene.input.MouseEvent mouseEvent) {
-        loadSerieScene();
-    }
-    
-    public void loadSerieScene() {
+    public void imageClick(MouseEvent mouseEvent) {
         new MovieDatabase().loadNewScene(new SerieView().displaySerie());
     }
-    
 }

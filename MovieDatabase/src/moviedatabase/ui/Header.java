@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -52,7 +53,7 @@ public class Header {
         BorderPane.setAlignment(imageView, javafx.geometry.Pos.CENTER);
         imageView.setFitHeight(56.0);
         imageView.setFitWidth(162.0);
-        imageView.setOnMouseClicked(this::imageClick);
+        imageView.setOnMouseClicked(this::logoClick);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
         imageView.setImage(new Image(getClass().getResource("fmdb.png").toExternalForm()));
@@ -62,6 +63,7 @@ public class Header {
         BorderPane.setAlignment(imageView2, javafx.geometry.Pos.CENTER);
         imageView2.setFitHeight(30.0);
         imageView2.setFitWidth(25.0);
+        imageView2.setOnMouseClicked(this::avatarClick);
         imageView2.setPickOnBounds(true);
         imageView2.setPreserveRatio(true);
         imageView2.setImage(new Image(getClass().getResource("fmdb.png").toExternalForm()));
@@ -73,11 +75,11 @@ public class Header {
         return borderPane;
     }
     
-    public void imageClick(javafx.scene.input.MouseEvent mouseEvent) {
-        loadHomeScene();
+    public void logoClick(MouseEvent mouseEvent) {
+        new MovieDatabase().loadNewScene(new HomePage().displayHomePage());
     }
     
-    public void loadHomeScene() {
-        new MovieDatabase().loadNewScene(new HomePage().displayHomePage());
+    public void avatarClick(MouseEvent mouseEvent) {
+        new MovieDatabase().loadNewScene(new MyPage().displayMyPage());
     }
 }

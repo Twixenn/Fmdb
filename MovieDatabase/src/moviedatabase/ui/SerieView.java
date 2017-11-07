@@ -15,6 +15,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
@@ -105,7 +106,7 @@ public class SerieView {
         border.setPrefHeight(400.0);
         border.setPrefWidth(600.0);
         border.setStyle("-fx-background-color: black;");
-        border.getStylesheets().add("/moviedatabase/main.css");
+        border.getStylesheets().add("main.css");
         
         border.setTop(new Header().displayHeader());
 
@@ -218,6 +219,7 @@ public class SerieView {
         button0.setPrefWidth(124.0);
         button0.setStyle("-fx-background-insets: 0; -fx-background-color: transparent; -fx-background-radius: 0; -fx-border-width: 0;");
         button0.setText("Episode Guide >");
+        button0.setOnMouseClicked(this::episodeClick);
         button0.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
         button0.setUnderline(true);
         button0.setCursor(Cursor.HAND);
@@ -252,5 +254,9 @@ public class SerieView {
         vBox0.getChildren().add(button0);
         
         return border;
+    }
+    
+    public void episodeClick(MouseEvent mouseEvent) {
+        new MovieDatabase().loadNewScene(new EpisodeList().displayEpisodeList());
     }
 }
