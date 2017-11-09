@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package moviedatabase.ui;
-import beans.AddSeriesToDatabase;
+import moviedatabase.beans.AddSeriesToDatabase;
 
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
@@ -63,7 +63,7 @@ public class AddNewSerie {
         border.setPrefHeight(400.0);
         border.setPrefWidth(600.0);
         border.setStyle("-fx-background-color: black;");
-        border.getStylesheets().add("main.css");
+        border.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
 
         border.setTop(new Header().displayHeader());
         
@@ -113,8 +113,8 @@ public class AddNewSerie {
     }
     
     public void addSerie(javafx.scene.input.MouseEvent mouseEvent) {
-        System.out.println("Lägger till serie");
         String url = textField0.getText();
+        textField0.setText("");
         AddSeriesToDatabase.addSeries(url);
     }
 }

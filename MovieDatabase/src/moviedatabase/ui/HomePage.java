@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package moviedatabase.ui;
+import java.net.URL;
+import java.util.ArrayList;
+import moviedatabase.beans.Serie;
 
+import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,6 +27,7 @@ import javafx.stage.Stage;
  * @author Fia
  */
 public class HomePage {
+    List<String> genres;
     BorderPane border;
     ScrollPane scrollPane;
     VBox vBox;
@@ -37,6 +42,9 @@ public class HomePage {
     ImageView imageView2;
 
     public BorderPane displayHomePage() {
+        List<Serie> series = new MovieDatabaseController().series;
+        genres = new ArrayList();
+        
         border = new BorderPane();
         scrollPane = new ScrollPane();
         vBox = new VBox();
@@ -50,7 +58,7 @@ public class HomePage {
         border.setPrefHeight(400.0);
         border.setPrefWidth(600.0);
         border.setStyle("-fx-background-color: black;");
-        border.getStylesheets().add("/main.css");
+        border.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
 
         border.setCenter(scrollPane);
         scrollPane.setFitToHeight(true);
@@ -70,11 +78,21 @@ public class HomePage {
         //HEADER
         border.setTop(new Header().displayHeader());
         
-        ScrollView scrollView = new ScrollView();
-
-        vBox.getChildren().add(scrollView.displayScrollView("Horror"));
-        vBox.getChildren().add(scrollView.displayScrollView("Drama"));
-        vBox.getChildren().add(scrollView.displayScrollView("Comedy"));
+        for(Serie s:series) {
+            genres = s.getAllGenres(genres);
+        }
+        
+        for(String g:genres) {
+            List <Serie> seriesOfThisGenre = new ArrayList();
+            for(Serie s:series) {
+                for(String genre:s.getAllGenres()) {
+                    if(genre.contains(g)) {
+                        seriesOfThisGenre.add(s);
+                    }
+                }
+            }
+            vBox.getChildren().add(new ScrollView().displayScrollView(g, seriesOfThisGenre));
+        }
         
         return border;
     }

@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package moviedatabase.ui;
+import java.util.List;
+import moviedatabase.beans.Serie;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -25,7 +27,7 @@ public class ScrollView {
     HBox hBox;
     Label label;
     
-    public BorderPane displayScrollView(String genre) {
+    public BorderPane displayScrollView(String genre, List<Serie> series) {
         borderPane = new BorderPane();
         scrollPane = new ScrollPane();
         hBox = new HBox();
@@ -48,9 +50,8 @@ public class ScrollView {
         hBox.setSpacing(10.0);
         hBox.setStyle("-fx-background-color: black;");
         
-        for(int i = 0; i < 10; i++) {
-            ScrollImage image = new ScrollImage();
-            hBox.getChildren().add(image.displayImage());
+        for(Serie s:series) {
+            hBox.getChildren().add(new ScrollImage().displayImage(s.getTitle()));
         }
         
         hBox.setPadding(new Insets(0.0, 10.0, 0.0, 10.0));

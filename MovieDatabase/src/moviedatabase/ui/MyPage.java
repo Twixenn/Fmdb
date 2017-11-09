@@ -60,7 +60,6 @@ public class MyPage {
         border.setPrefHeight(400.0);
         border.setPrefWidth(600.0);
         border.setStyle("-fx-background-color: black;");
-        border.getStylesheets().add("main.css");
 
         border.setTop(new Header().displayHeader());
 
@@ -110,10 +109,10 @@ public class MyPage {
     }
     
     public void newSerieClick(MouseEvent mouseEvent) {
-        new MovieDatabase().loadNewScene(new AddNewSerie().displayAddNewSerie());
+        new MovieDatabaseController().loadNewScene(new AddNewSerie().displayAddNewSerie());
     }
     
     public void watchlistClick(MouseEvent mouseEvent) {
-        new MovieDatabase().loadNewScene(new WatchList().displayWatchList());
+        new MovieDatabaseController().loadNewScene(new WatchList().displayWatchList());
     }
 }

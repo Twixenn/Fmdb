@@ -13,21 +13,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import static moviedatabase.ui.MovieDatabase.main;
+import java.io.File;
+import moviedatabase.beans.Serie;
+import static moviedatabase.ui.MovieDatabaseController.main;
 
 /**
  *
  * @author Fia
  */
 public class ScrollImage {
+
     BorderPane borderPane;
     ImageView imageView;
     Stage stage;
-    
-    public BorderPane displayImage() {
+    private String title;
+
+    public BorderPane displayImage(String image) {
+        this.title = image;
         borderPane = new BorderPane();
         imageView = new ImageView();
-        
+
         borderPane.setLayoutX(457.0);
         borderPane.setLayoutY(10.0);
         borderPane.setPrefHeight(180.0);
@@ -39,13 +44,17 @@ public class ScrollImage {
         imageView.setOnMouseClicked(this::imageClick);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.setImage(new Image(getClass().getResource("Bilder/Rick and Morty.jpg").toExternalForm()));
+        if (image != null) {
+            imageView.setImage(new Image(getClass().getResource("Bilder/" + this.title + ".jpg").toExternalForm()));
+        }
         borderPane.setCenter(imageView);
-        
+
         return borderPane;
     }
-    
+
     public void imageClick(MouseEvent mouseEvent) {
-        new MovieDatabase().loadNewScene(new SerieView().displaySerie());
+        if(this.title != null) {
+            new MovieDatabaseController().loadNewScene(new SerieView().displaySerie(this.title));
+        }
     }
 }

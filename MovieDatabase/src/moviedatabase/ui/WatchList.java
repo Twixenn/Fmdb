@@ -5,6 +5,8 @@
  */
 package moviedatabase.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -13,17 +15,20 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import moviedatabase.beans.Serie;
 
 /**
  *
  * @author Fia
  */
 public class WatchList {
+
     BorderPane border;
     BorderPane borderPane;
     HBox hBox;
@@ -76,8 +81,11 @@ public class WatchList {
     HBox hBox15;
     Button button14;
     Button button15;
+    public static List<Serie> watchList = new ArrayList();
+    private List<Button> removeButtons;
 
     public BorderPane displayWatchList() {
+        this.removeButtons = new ArrayList();
         border = new BorderPane();
         borderPane = new BorderPane();
         hBox = new HBox();
@@ -138,9 +146,9 @@ public class WatchList {
         border.setPrefHeight(400.0);
         border.setPrefWidth(600.0);
         border.setStyle("-fx-background-color: black;");
-        border.getStylesheets().add("main.css");
-        
-         border.setTop(new Header().displayHeader());
+        border.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+
+        border.setTop(new Header().displayHeader());
 
         BorderPane.setAlignment(scrollPane, javafx.geometry.Pos.CENTER);
         scrollPane.setFitToHeight(true);
@@ -174,245 +182,40 @@ public class WatchList {
         vBox.setSpacing(10.0);
         vBox.setStyle("-fx-background-color: black;");
 
-        hBox0.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        hBox0.setPrefHeight(25.0);
-        hBox0.setPrefWidth(558.0);
-        hBox0.getStylesheets().add("/moviedatabase/main.css");
+        for (Serie s : watchList) {
+            hBox0 = new HBox();
+            hBox0.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            hBox0.setPrefHeight(25.0);
+            hBox0.setPrefWidth(558.0);
 
-        label0.setPrefHeight(17.0);
-        label0.setPrefWidth(243.0);
-        label0.setText("Game of Thrones");
-        label0.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
+            label0.setPrefHeight(17.0);
+            label0.setPrefWidth(243.0);
+            label0.setText(s.getTitle());
+            label0.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
 
-        hBox1.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        hBox1.setPrefHeight(25.0);
-        hBox1.setPrefWidth(291.0);
-        hBox1.setSpacing(20.0);
+            hBox1.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+            hBox1.setPrefHeight(25.0);
+            hBox1.setPrefWidth(291.0);
+            hBox1.setSpacing(20.0);
 
-        button0.setAlignment(javafx.geometry.Pos.CENTER);
-        button0.setMnemonicParsing(false);
-        button0.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button0.setText("Go to series >");
-        button0.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button0.setUnderline(true);
+            button0.setAlignment(javafx.geometry.Pos.CENTER);
+            button0.setMnemonicParsing(false);
+            button0.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
+            button0.setText("Go to series >");
+            button0.setOnMouseClicked(this::goToSerie);
+            button0.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
+            button0.setUnderline(true);
 
-        button1.setAlignment(javafx.geometry.Pos.CENTER);
-        button1.setMnemonicParsing(false);
-        button1.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button1.setText("Remove from Watchlist >");
-        button1.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button1.setUnderline(true);
-        hBox0.setPadding(new Insets(10.0));
-
-        hBox2.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        hBox2.setPrefHeight(25.0);
-        hBox2.setPrefWidth(558.0);
-        hBox2.getStylesheets().add("/moviedatabase/main.css");
-
-        label1.setPrefHeight(17.0);
-        label1.setPrefWidth(243.0);
-        label1.setText("Game of Thrones");
-        label1.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-
-        hBox3.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        hBox3.setPrefHeight(25.0);
-        hBox3.setPrefWidth(291.0);
-        hBox3.setSpacing(20.0);
-
-        button2.setAlignment(javafx.geometry.Pos.CENTER);
-        button2.setMnemonicParsing(false);
-        button2.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button2.setText("Go to series >");
-        button2.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button2.setUnderline(true);
-
-        button3.setAlignment(javafx.geometry.Pos.CENTER);
-        button3.setMnemonicParsing(false);
-        button3.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button3.setText("Remove from Watchlist >");
-        button3.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button3.setUnderline(true);
-        hBox2.setPadding(new Insets(10.0));
-
-        hBox4.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        hBox4.setPrefHeight(25.0);
-        hBox4.setPrefWidth(558.0);
-        hBox4.getStylesheets().add("/moviedatabase/main.css");
-
-        label2.setPrefHeight(17.0);
-        label2.setPrefWidth(243.0);
-        label2.setText("Game of Thrones");
-        label2.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-
-        hBox5.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        hBox5.setPrefHeight(25.0);
-        hBox5.setPrefWidth(291.0);
-        hBox5.setSpacing(20.0);
-
-        button4.setAlignment(javafx.geometry.Pos.CENTER);
-        button4.setMnemonicParsing(false);
-        button4.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button4.setText("Go to series >");
-        button4.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button4.setUnderline(true);
-
-        button5.setAlignment(javafx.geometry.Pos.CENTER);
-        button5.setMnemonicParsing(false);
-        button5.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button5.setText("Remove from Watchlist >");
-        button5.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button5.setUnderline(true);
-        hBox4.setPadding(new Insets(10.0));
-
-        hBox6.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        hBox6.setPrefHeight(25.0);
-        hBox6.setPrefWidth(558.0);
-        hBox6.getStylesheets().add("/moviedatabase/main.css");
-
-        label3.setPrefHeight(17.0);
-        label3.setPrefWidth(243.0);
-        label3.setText("Game of Thrones");
-        label3.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-
-        hBox7.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        hBox7.setPrefHeight(25.0);
-        hBox7.setPrefWidth(291.0);
-        hBox7.setSpacing(20.0);
-
-        button6.setAlignment(javafx.geometry.Pos.CENTER);
-        button6.setMnemonicParsing(false);
-        button6.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button6.setText("Go to series >");
-        button6.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button6.setUnderline(true);
-
-        button7.setAlignment(javafx.geometry.Pos.CENTER);
-        button7.setMnemonicParsing(false);
-        button7.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button7.setText("Remove from Watchlist >");
-        button7.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button7.setUnderline(true);
-        hBox6.setPadding(new Insets(10.0));
-
-        hBox8.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        hBox8.setPrefHeight(25.0);
-        hBox8.setPrefWidth(558.0);
-        hBox8.getStylesheets().add("/moviedatabase/main.css");
-
-        label4.setPrefHeight(17.0);
-        label4.setPrefWidth(243.0);
-        label4.setText("Game of Thrones");
-        label4.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-
-        hBox9.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        hBox9.setPrefHeight(25.0);
-        hBox9.setPrefWidth(291.0);
-        hBox9.setSpacing(20.0);
-
-        button8.setAlignment(javafx.geometry.Pos.CENTER);
-        button8.setMnemonicParsing(false);
-        button8.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button8.setText("Go to series >");
-        button8.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button8.setUnderline(true);
-
-        button9.setAlignment(javafx.geometry.Pos.CENTER);
-        button9.setMnemonicParsing(false);
-        button9.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button9.setText("Remove from Watchlist >");
-        button9.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button9.setUnderline(true);
-        hBox8.setPadding(new Insets(10.0));
-
-        hBox10.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        hBox10.setPrefHeight(25.0);
-        hBox10.setPrefWidth(558.0);
-        hBox10.getStylesheets().add("/moviedatabase/main.css");
-
-        label5.setPrefHeight(17.0);
-        label5.setPrefWidth(243.0);
-        label5.setText("Game of Thrones");
-        label5.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-
-        hBox11.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        hBox11.setPrefHeight(25.0);
-        hBox11.setPrefWidth(291.0);
-        hBox11.setSpacing(20.0);
-
-        button10.setAlignment(javafx.geometry.Pos.CENTER);
-        button10.setMnemonicParsing(false);
-        button10.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button10.setText("Go to series >");
-        button10.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button10.setUnderline(true);
-
-        button11.setAlignment(javafx.geometry.Pos.CENTER);
-        button11.setMnemonicParsing(false);
-        button11.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button11.setText("Remove from Watchlist >");
-        button11.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button11.setUnderline(true);
-        hBox10.setPadding(new Insets(10.0));
-
-        hBox12.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        hBox12.setPrefHeight(25.0);
-        hBox12.setPrefWidth(558.0);
-        hBox12.getStylesheets().add("/moviedatabase/main.css");
-
-        label6.setPrefHeight(17.0);
-        label6.setPrefWidth(243.0);
-        label6.setText("Game of Thrones");
-        label6.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-
-        hBox13.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        hBox13.setPrefHeight(25.0);
-        hBox13.setPrefWidth(291.0);
-        hBox13.setSpacing(20.0);
-
-        button12.setAlignment(javafx.geometry.Pos.CENTER);
-        button12.setMnemonicParsing(false);
-        button12.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button12.setText("Go to series >");
-        button12.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button12.setUnderline(true);
-
-        button13.setAlignment(javafx.geometry.Pos.CENTER);
-        button13.setMnemonicParsing(false);
-        button13.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button13.setText("Remove from Watchlist >");
-        button13.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button13.setUnderline(true);
-        hBox12.setPadding(new Insets(10.0));
-
-        hBox14.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        hBox14.setPrefHeight(25.0);
-        hBox14.setPrefWidth(558.0);
-        hBox14.getStylesheets().add("/moviedatabase/main.css");
-
-        label7.setPrefHeight(17.0);
-        label7.setPrefWidth(243.0);
-        label7.setText("Game of Thrones");
-        label7.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-
-        hBox15.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        hBox15.setPrefHeight(25.0);
-        hBox15.setPrefWidth(291.0);
-        hBox15.setSpacing(20.0);
-
-        button14.setAlignment(javafx.geometry.Pos.CENTER);
-        button14.setMnemonicParsing(false);
-        button14.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button14.setText("Go to series >");
-        button14.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button14.setUnderline(true);
-
-        button15.setAlignment(javafx.geometry.Pos.CENTER);
-        button15.setMnemonicParsing(false);
-        button15.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
-        button15.setText("Remove from Watchlist >");
-        button15.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
-        button15.setUnderline(true);
-        hBox14.setPadding(new Insets(10.0));
+            button1.setAlignment(javafx.geometry.Pos.CENTER);
+            button1.setMnemonicParsing(false);
+            button1.setStyle("-fx-padding: 0; -fx-background-color: transparent;");
+            button1.setText("Remove from Watchlist >");
+            button1.setOnMouseClicked(this::removeFromList);
+            button1.setTextFill(javafx.scene.paint.Color.valueOf("#888888"));
+            button1.setUnderline(true);
+            removeButtons.add(button1);
+            hBox0.setPadding(new Insets(10.0));
+        }
         scrollPane0.setContent(vBox);
         borderPane0.setCenter(scrollPane0);
         scrollPane.setContent(borderPane0);
@@ -460,8 +263,16 @@ public class WatchList {
         hBox15.getChildren().add(button15);
         hBox14.getChildren().add(hBox15);
         vBox.getChildren().add(hBox14);
-        
+
         return border;
     }
     
+    public void removeFromList(MouseEvent mouseEvent) {
+        
+    }
+    
+    public void goToSerie(MouseEvent mouseEvent) {
+        
+    }
+
 }

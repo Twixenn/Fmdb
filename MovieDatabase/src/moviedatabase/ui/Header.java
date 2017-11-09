@@ -76,10 +76,10 @@ public class Header {
     }
     
     public void logoClick(MouseEvent mouseEvent) {
-        new MovieDatabase().loadNewScene(new HomePage().displayHomePage());
+        new MovieDatabaseController().loadNewScene(new HomePage().displayHomePage());
     }
     
     public void avatarClick(MouseEvent mouseEvent) {
-        new MovieDatabase().loadNewScene(new MyPage().displayMyPage());
+        new MovieDatabaseController().loadNewScene(new MyPage().displayMyPage());
     }
 }
